@@ -1,3 +1,9 @@
+import { SigninPageModule } from './../pages/signin/signin.module';
+import { AuthService } from './../providers/auth/auth.service';
+
+
+import { UserService } from './../providers/user/user.service';
+import { SignupPageModule } from './../pages/signup/signup.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -6,15 +12,35 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
+import { HttpClientModule } from '@angular/common/http'
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+
+
+const firebaseAppConfig: FirebaseAppConfig = {
+  apiKey: "AIzaSyDxXarH2mUPXXHXiCpWEx_JAH6tTVxU_zk",
+  authDomain: "ionic2-firebase-chat-c98bd.firebaseapp.com",
+  databaseURL: "https://ionic2-firebase-chat-c98bd.firebaseio.com",
+  storageBucket: "ionic2-firebase-chat-c98bd.appspot.com",
+  messagingSenderId: "1047752270485"
+}
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage 
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseAppConfig),
+    SignupPageModule,
+    SigninPageModule,
+    HttpClientModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -24,7 +50,9 @@ import { HomePage } from '../pages/home/home';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    UserService,
+    AuthService
   ]
 })
-export class AppModule {}
+export class AppModule { }

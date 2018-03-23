@@ -21,12 +21,12 @@
   <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">  
 
     <ion-item>
-      <ion-icon name="mail" item-left></ion-icon>
+      <ion-icon name="mail" item-left color="primary"></ion-icon>
       <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-icon name="lock" item-left></ion-icon>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
       <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
     </ion-item>
 
@@ -36,5 +36,8 @@
   </form>
 
   <button ion-button full clear text-center (click)="onSignup()">Sign Up</button>
+
+  <button ion-button block (click)="onHomePage()">Home Page</button>
+  <button ion-button block (click)="onLogout()">Log out</button>
 
 </ion-content>

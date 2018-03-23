@@ -1,3 +1,4 @@
+import { AuthService } from './../../providers/auth/auth.service';
 import { UserService } from './../../providers/user/user.service';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
@@ -16,11 +17,12 @@ import { Observable } from 'rxjs/Observable';
 export class HomePage {
 
   public usuarios: any[]
+  view: string = 'chats';
   // public usuarios:AngularFireList<any> 
 
-  constructor(public navCtrl: NavController, public user: UserService) {
+  constructor(public authService: AuthService, public navCtrl: NavController, public user: UserService) {
 
-
+    this.view = 'chats';
 
 
   }
@@ -28,9 +30,13 @@ export class HomePage {
   ionViewDidLoad() {
     console.log('passo 2  ');
     console.log(this.user.currentUser);
-   
-    var a = this.user.usersList.valueChanges().subscribe( data => { this.usuarios = data;} );
+
+    var a = this.user.usersList.valueChanges().subscribe(data => { this.usuarios = data; });
     console.log(this.usuarios);
+  }
+
+  ionViewCanEnter(): Promise<boolean> {
+    return this.authService.authenticated;
   }
 
   onSignup() {
@@ -38,10 +44,12 @@ export class HomePage {
   }
 
   sair() {
-    this.user.afAuth.auth.signOut();
+    this.user.afAuth.auth.signOut()
+      .then(() => { console.log(`Usuário deslogado: ${this.user.currentUser.email}`) }
+      ).catch(() => { console.log('Erro ao sair') });
   }
 
-  onCreateChat(u:User){
+  onCreateChat(u: User) {
     console.log('create chat:' + u);
   }
 

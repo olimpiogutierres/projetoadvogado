@@ -1,24 +1,37 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title> 
-  </ion-navbar>
+  <custom-logged-header [title]="view"></custom-logged-header>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="chats">Chats</ion-segment-button>
+      <ion-segment-button value="users">Usuários</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
 </ion-header>
 
-<ion-content padding> 
-  
-  <!-- <button ion-button block (click)="on" -->
-    <button ion-button block (click)="onSignup()">teste</button>
-    <button ion-button block (click)="sair()">sair</button> 
-
-    <!-- <button ion-item *ngFor="let item of usuarios">item</button>  -->
-
-    <ion-list>
-      <button ion-item *ngFor="let u of usuarios" (click)="onCreateChat(u)"> 
-        {{u.name}} -- {{u.email}}
+<ion-content padding>
 
 
+  <div [ngSwitch]="view">
+    <ion-list *ngSwitchCase="'chats'" no-lines>
+      <ion-item>Chats</ion-item>
+    </ion-list>
+
+
+    <ion-list *ngSwitchCase="'users'">
+      <button ion-item *ngFor="let u of usuarios" (click)="onCreateChat(u)">
+        {{u.name}}
       </button>
     </ion-list>
+  </div>
+  <!-- <button ion-button block (click)="on" -->
+  <!-- <button ion-button block (click)="onSignup()">teste</button>
+  <button ion-button block (click)="sair()">sair</button> -->
+
+  <!-- <button ion-item *ngFor="let item of usuarios">item</button>  -->
+
+  
+
+
 </ion-content>

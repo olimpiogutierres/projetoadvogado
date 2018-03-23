@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { SigninPageModule } from './../pages/signin/signin.module';
 import { AuthService } from './../providers/auth/auth.service';
 
@@ -40,7 +41,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     SigninPageModule,
     HttpClientModule,
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

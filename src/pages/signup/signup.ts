@@ -1,3 +1,4 @@
+import { HomePage } from './../home/home';
 
 import { AuthService } from './../../providers/auth/auth.service';
 import { Component } from '@angular/core';
@@ -64,7 +65,7 @@ export class SignupPage {
 
             this.userService.create(formUser).then(() => {
               console.log('Usuário cadastrado!')
-
+              this.navCtrl.push(HomePage);
               loading.dismiss();
             }).catch((error: any) => {
               console.log(error);

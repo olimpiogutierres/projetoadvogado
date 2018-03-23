@@ -1,3 +1,4 @@
+import { CustomLoggedHeaderComponent } from './../components/custom-logged-header/custom-logged-header';
 import { ComponentsModule } from './../components/components.module';
 import { SigninPageModule } from './../pages/signin/signin.module';
 import { AuthService } from './../providers/auth/auth.service';
@@ -17,6 +18,7 @@ import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { HttpClientModule } from '@angular/common/http'
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { BaseComponent } from '../components/base.component';
 
 
 
@@ -31,7 +33,7 @@ const firebaseAppConfig: FirebaseAppConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage 
+    HomePage
   ],
   imports: [
     BrowserModule,

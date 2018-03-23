@@ -13,7 +13,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 @IonicPage()
 @Component({ 
   selector: 'page-signin',
-  templateUrl: 'signin.html',
+  templateUrl: 'signin.html',  
 })
 export class SigninPage {
 

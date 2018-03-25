@@ -1,3 +1,4 @@
+import { PipesModule } from './../pipes/pipes.module';
 import { CustomLoggedHeaderComponent } from './../components/custom-logged-header/custom-logged-header';
 import { ComponentsModule } from './../components/components.module';
 import { SigninPageModule } from './../pages/signin/signin.module';
@@ -18,7 +19,7 @@ import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { HttpClientModule } from '@angular/common/http'
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { BaseComponent } from '../components/base.component';
+import { BaseComponent } from '../components/base/base.component';
 
 
 
@@ -44,7 +45,9 @@ const firebaseAppConfig: FirebaseAppConfig = {
     HttpClientModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [

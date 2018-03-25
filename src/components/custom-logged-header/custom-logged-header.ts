@@ -15,13 +15,13 @@ import { AuthService } from '../../providers/auth/auth.service';
 })
 export class CustomLoggedHeaderComponent extends BaseComponent {
 
-  @Input() text: string;
+  @Input() title: string;
 
   constructor(public alertCtrl: AlertController, public auth: AuthService, public app: App,
     public menuCtrl: MenuController) {
     super(alertCtrl, auth, app, menuCtrl);
     console.log('Hello CustomLoggedHeaderComponent Component');
-    this.text = 'Hello World';
+    
   }
 
   

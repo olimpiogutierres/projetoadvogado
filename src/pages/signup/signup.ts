@@ -58,12 +58,12 @@ export class SignupPage {
           ).then((authState: firebase.User) => {
 
             delete formUser.password;
+            let uuid :string = authState.uid;
+            //formUser.uid = authState.uid;
 
-            formUser.uid = authState.uid;
 
 
-
-            this.userService.create(formUser).then(() => {
+            this.userService.create(formUser, uuid).then(() => {
               console.log('Usuário cadastrado!')
               this.navCtrl.push(HomePage);
               loading.dismiss();

@@ -59,8 +59,8 @@ export class UserService extends BaseService {
       new firebase.auth.GoogleAuthProvider());
   }
 
-  create(user: User): Promise<void> {
-    return this.db.object(`/users/${user.uid}`).set(user).catch(this.handlePromiseError);
+  create(user: User, uuid: string): Promise<void> {
+    return this.db.object(`/users/${uuid}`).set(user).catch(this.handlePromiseError);
   }
 
   userExists(username: string): Observable<boolean> {

@@ -1,3 +1,4 @@
+import { ChatPage } from './../chat/chat';
 import { AuthService } from './../../providers/auth/auth.service';
 import { UserService } from './../../providers/user/user.service';
 import { Component } from '@angular/core';
@@ -50,7 +51,9 @@ export class HomePage {
   }
 
   onCreateChat(u: User) {
-    console.log('create chat:' + u);
+    this.navCtrl.push(ChatPage, {
+      recipientUser: u
+    });
   }
 
 }

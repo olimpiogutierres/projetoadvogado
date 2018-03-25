@@ -1,3 +1,4 @@
+import { ChatPageModule } from './../pages/chat/chat.module';
 import { PipesModule } from './../pipes/pipes.module';
 import { CustomLoggedHeaderComponent } from './../components/custom-logged-header/custom-logged-header';
 import { ComponentsModule } from './../components/components.module';
@@ -46,7 +47,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     ComponentsModule,
-    PipesModule
+    PipesModule,
+    ChatPageModule
 
   ],
   bootstrap: [IonicApp],

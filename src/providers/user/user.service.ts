@@ -25,26 +25,41 @@ import 'rxjs/add/operator/map';
 export class UserService extends BaseService {
   public authState: Observable<firebase.User>
   public usersList: AngularFireList<any>
-  public currentUser: firebase.User = null;
+  public currentUser: Observable<User> = null;
+
+  public user1: AngularFireObject<User>;
+ 
 
   constructor(public http: HttpClient, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
     super();
     console.log('Hello UserProvider Provider');
-    this.usersList = this.db.list('/users');
+    let currentUid:any;
 
-
-
+ 
     this.authState = this.afAuth.authState;
     // console.log(this.af.)
     this.authState.subscribe(user => {
       if (user) {
-        this.currentUser = user;
-
+        this.currentUser = this.db.object<User>(`/users/${user.uid}`).valueChanges();
+        currentUid = user.uid;
       } else {
+
         this.currentUser = null;
       }
     });
+    
+    this.setUsers(currentUid);
+
+
   }
+
+  private setUsers(uidToExclude: string) {
+    this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));
+    this.usersList.remove(uidToExclude);
+  }
+
+
+
 
   getAuthState() {
     return this.authState;

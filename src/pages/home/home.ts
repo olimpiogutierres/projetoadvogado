@@ -22,10 +22,7 @@ export class HomePage {
   // public usuarios:AngularFireList<any> 
 
   constructor(public authService: AuthService, public navCtrl: NavController, public user: UserService) {
-
     this.view = 'chats';
-
-
   }
 
   ionViewDidLoad() {

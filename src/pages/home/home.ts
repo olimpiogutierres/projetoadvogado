@@ -17,7 +17,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class HomePage {
 
-  public usuarios: any[]
+  public usuarios: User[];
+
   view: string = 'chats';
   // public usuarios:AngularFireList<any> 
 
@@ -26,11 +27,15 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    console.log('passo 2  ');
-    console.log(this.user.currentUser);
+    let user: User = null;
 
-    var a = this.user.usersList.valueChanges().subscribe(data => { this.usuarios = data; });
-    console.log(this.usuarios);
+    this.user.currentUser.subscribe(userAtivo => {
+      this.user.usersList.valueChanges()
+        .subscribe(data => {
+          this.usuarios = data;
+          this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
+        });
+    });
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -43,7 +48,7 @@ export class HomePage {
 
   sair() {
     this.user.afAuth.auth.signOut()
-      .then(() => { console.log(`Usuário deslogado: ${this.user.currentUser.email}`) }
+      .then(() => { console.log(`Usuário deslogado: ${this.user.currentUser}`) }
       ).catch(() => { console.log('Erro ao sair') });
   }
 

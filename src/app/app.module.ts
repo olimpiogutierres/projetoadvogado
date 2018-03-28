@@ -1,3 +1,4 @@
+import { ChatService } from './../providers/chat/chat.service';
 import { ChatPageModule } from './../pages/chat/chat.module';
 import { PipesModule } from './../pipes/pipes.module';
 import { CustomLoggedHeaderComponent } from './../components/custom-logged-header/custom-logged-header';
@@ -21,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BaseComponent } from '../components/base/base.component';
+
 
 
 
@@ -61,7 +63,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserService,
-    AuthService
+    AuthService,
+    ChatService
   ]
 })
 export class AppModule { }

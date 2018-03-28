@@ -60,7 +60,7 @@ export class SignupPage {
             delete formUser.password;
             let uuid :string = authState.uid;
             //formUser.uid = authState.uid;
-
+            formUser.photo = '';
 
 
             this.userService.create(formUser, uuid).then(() => {

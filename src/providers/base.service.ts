@@ -1,3 +1,5 @@
+import { User } from './../models/user.model';
+import { UserService } from './user/user.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
@@ -18,6 +20,12 @@ const extractError = (error: Response | any): string => {
 
 export abstract class BaseService {
 
+    constructor() {
+
+    }
+
+    
+
     protected handlePromiseError(error: Response | any): Promise<any> {
         return Promise.reject(extractError(error));
     }
@@ -25,5 +33,7 @@ export abstract class BaseService {
     protected handleObservableError(error: Response | any): Observable<any> {
         return Observable.throw(extractError(error));
     }
+
+
 
 }

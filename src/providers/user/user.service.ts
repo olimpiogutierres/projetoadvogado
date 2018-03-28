@@ -23,25 +23,27 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class UserService extends BaseService {
+  public userAtivo: User;
   public authState: Observable<firebase.User>
   public usersList: AngularFireList<any>
   public currentUser: Observable<User> = null;
-  public currentUid:string;
+  public currentUid: string;
   // public user1: AngularFireObject<User>;
 
 
   constructor(public http: HttpClient, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
     super();
     console.log('Hello UserProvider Provider');
-   // let currentUid: string;
+    // let currentUid: string;
 
 
-    this.authState = this.afAuth.authState;
+    //this.userAtivo = this.user.currentUser;
+    //this.authState =;
     // console.log(this.af.)
-    this.authState.subscribe(user => {
+    this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.currentUser = this.db.object<User>(`/users/${user.uid}`).valueChanges();
-        let a = this.db.object<User>(`/users/${user.uid}`);
+        this.db.object<User>(`/users/${user.uid}`).valueChanges().subscribe((userAtivo: User) => { this.userAtivo = userAtivo });
+        let a = this.db.object<User>(`/users/${user.uid}`).valueChanges();
 
 
         //console.log(this.currentUser)
@@ -65,14 +67,8 @@ export class UserService extends BaseService {
 
 
   private setUsers(uidToExclude: string) {
+    this.usersList = this.db.list('/users', ref => ref.orderByChild('name')); 
 
-    console.log('Set users 1:', this.usersList);
-    this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));
-    console.log('Set users 2:', this.usersList);
-
-    //this.usersList.remove(uidToExclude);
-    console.log('Set users 3:', uidToExclude);
-    console.log('Set users 4l;:', this.usersList);
   }
 
 

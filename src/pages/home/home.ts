@@ -1,3 +1,4 @@
+import { ChatService } from './../../providers/chat/chat.service';
 import { ChatPage } from './../chat/chat';
 import { AuthService } from './../../providers/auth/auth.service';
 import { UserService } from './../../providers/user/user.service';
@@ -22,18 +23,25 @@ export class HomePage {
   view: string = 'chats';
   // public usuarios:AngularFireList<any> 
 
-  constructor(public authService: AuthService, public navCtrl: NavController, public user: UserService) {
+  constructor(public authService: AuthService, public navCtrl: NavController, public user: UserService, public chatService:ChatService) {
     this.view = 'chats';
   }
 
   ionViewDidLoad() {
-    let user: User = null;
+    let userAtivo: User = this.user.userAtivo;
+
+
+    console.log('user1111',userAtivo);
+
 
     this.user.currentUser.subscribe(userAtivo => {
       this.user.usersList.valueChanges()
         .subscribe(data => {
           this.usuarios = data;
+          
           this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
+         
+          
         });
     });
   }
@@ -52,9 +60,15 @@ export class HomePage {
       ).catch(() => { console.log('Erro ao sair') });
   }
 
-  onCreateChat(u: User) {
+  onCreateChat(recipientUser: User) {
+
+
+  
+
+
+
     this.navCtrl.push(ChatPage, {
-      recipientUser: u
+      recipientUser: recipientUser
     });
   }
 

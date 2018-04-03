@@ -26,18 +26,18 @@ export class HomePage {
 
   public user: UserService;
 
-  constructor(public authService: AuthService, public navCtrl: NavController,  user: UserService, public chatService:ChatService) {
+  constructor(public authService: AuthService, public navCtrl: NavController, user: UserService, public chatService: ChatService) {
     this.view = 'chats';
-    this.user= user;
+    this.user = user;
     console.log('entrou no construtor');
   }
 
   ionViewDidLoad() {
- 
+
     let userAtivo: AngularFireObject<User> = this.user.userAtivo;
 
 
-    console.log('user1111',userAtivo);
+    console.log('user1111', userAtivo);
 
 
     this.user.userAtivo.valueChanges().subscribe(userAtivo => {
@@ -46,10 +46,10 @@ export class HomePage {
           this.usuarios = data;
 
           console.log(userAtivo.email);
-          
+
           this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
-         
-          
+
+
         });
     });
   }
@@ -64,7 +64,7 @@ export class HomePage {
 
   sair() {
     this.user.afAuth.auth.signOut()
-      .then(() => { 
+      .then(() => {
         //console.log(`Usuário deslogado: ${this.user.currentUser}`) 
       }
       ).catch(() => { console.log('Erro ao sair') });
@@ -72,9 +72,15 @@ export class HomePage {
 
   onCreateChat(recipientUser: User) {
 
+    this.user.userAtivo.valueChanges().first().subscribe((currentUser: User) => {
+      let keyCurrentUser: any;
+      this.user.userAtivo.snapshotChanges().map(c => ({ keyCurrentUser: c.key }));
+      console.log(keyCurrentUser);
 
-  
 
+
+      this.chatService.getDeepChat(keyCurrentUser, recipientUser.email);
+    });
 
 
     this.navCtrl.push(ChatPage, {

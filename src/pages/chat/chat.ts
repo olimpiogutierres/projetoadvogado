@@ -34,7 +34,7 @@ export class ChatPage {
   ionViewDidLoad() {
     this.recipient = this.navParams.get('recipientUser');
     this.pageTitle  = this.recipient.name;
-    this.userService.currentUser.first().subscribe((currentUser:User)=>{this.sender = currentUser});
+    this.userService.userAtivo.valueChanges().first().subscribe((currentUser:User)=>{this.sender = currentUser});
   }
   sendMessage(newMessage: string) {
     this.messages.push(newMessage);

@@ -1,3 +1,4 @@
+import { User } from './../../models/user.model';
 import { ChatService } from './../../providers/chat/chat.service';
 import { ChatPage } from './../chat/chat';
 import { AuthService } from './../../providers/auth/auth.service';
@@ -5,8 +6,8 @@ import { UserService } from './../../providers/user/user.service';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
-import { AngularFireList } from 'angularfire2/database';
-import { User } from '../../models/user.model';
+import { AngularFireList, AngularFireObject } from 'angularfire2/database';
+
 import { Observable } from 'rxjs/Observable';
 // import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database-deprecated";
 //import { Observable } from '@firebase/util';
@@ -23,21 +24,28 @@ export class HomePage {
   view: string = 'chats';
   // public usuarios:AngularFireList<any> 
 
-  constructor(public authService: AuthService, public navCtrl: NavController, public user: UserService, public chatService:ChatService) {
+  public user: UserService;
+
+  constructor(public authService: AuthService, public navCtrl: NavController,  user: UserService, public chatService:ChatService) {
     this.view = 'chats';
+    this.user= user;
+    console.log('entrou no construtor');
   }
 
   ionViewDidLoad() {
-    let userAtivo: User = this.user.userAtivo;
+ 
+    let userAtivo: AngularFireObject<User> = this.user.userAtivo;
 
 
     console.log('user1111',userAtivo);
 
 
-    this.user.currentUser.subscribe(userAtivo => {
+    this.user.userAtivo.valueChanges().subscribe(userAtivo => {
       this.user.usersList.valueChanges()
         .subscribe(data => {
           this.usuarios = data;
+
+          console.log(userAtivo.email);
           
           this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
          
@@ -56,7 +64,9 @@ export class HomePage {
 
   sair() {
     this.user.afAuth.auth.signOut()
-      .then(() => { console.log(`Usuário deslogado: ${this.user.currentUser}`) }
+      .then(() => { 
+        //console.log(`Usuário deslogado: ${this.user.currentUser}`) 
+      }
       ).catch(() => { console.log('Erro ao sair') });
   }
 

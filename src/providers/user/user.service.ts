@@ -15,67 +15,39 @@ import { BaseService } from '../base.service';
 import 'rxjs/add/operator/map';
 
 
-/* 
-  Generated class for the UserProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class UserService extends BaseService {
-  public userAtivo: User;
-  public authState: Observable<firebase.User>
-  public usersList: AngularFireList<any>
-  public currentUser: Observable<User> = null;
-  public currentUid: string;
-  // public user1: AngularFireObject<User>;
-
+  public userAtivo: AngularFireObject<User>;
+  
+  public usersList: AngularFireList<User>
 
   constructor(public http: HttpClient, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
-    super();
-    console.log('Hello UserProvider Provider');
-    // let currentUid: string;
+    super(); 
 
-
-    //this.userAtivo = this.user.currentUser;
-    //this.authState =;
-    // console.log(this.af.)
     this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.db.object<User>(`/users/${user.uid}`).valueChanges().subscribe((userAtivo: User) => { this.userAtivo = userAtivo });
-        let a = this.db.object<User>(`/users/${user.uid}`).valueChanges();
-
-
-        //console.log(this.currentUser)
-        //console.log('subscribe user:' ,a.valueChanges().subscribe((u:User)=>{console.log(u.)}));
-        console.log('deu certo', user.uid);
-        this.currentUid = user.uid;
-      } else {
-
-        this.currentUser = null;
-
-        console.log('não deu certo', user.uid);
+      if (user) {     
+        this.userAtivo = this.db.object<User>(`/users/${user.uid}`); 
+      } 
+      else {
+        this.userAtivo = null;
       }
     });
 
-    this.setUsers(this.currentUid);
-
-
+    this.setUsers();
   }
 
 
 
 
-  private setUsers(uidToExclude: string) {
-    this.usersList = this.db.list('/users', ref => ref.orderByChild('name')); 
 
+
+  private setUsers() {
+    this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));
   }
-
-
-
-
+  
   getAuthState() {
-    return this.authState;
+    //return this.authState;
   }
 
   logoutWithGoogle() {
@@ -103,10 +75,5 @@ export class UserService extends BaseService {
 
 
   }
-
-  // list(){
-  //   this.afAuth.app.database.
-  // }
-
 
 }

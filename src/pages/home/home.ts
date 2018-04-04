@@ -72,15 +72,29 @@ export class HomePage {
 
   onCreateChat(recipientUser: User) {
 
+    
+      console.log('recipientkey',  recipientUser.key());
+
+
     this.user.userAtivo.valueChanges().first().subscribe((currentUser: User) => {
       let keyCurrentUser: any;
       this.user.userAtivo.snapshotChanges().map(c => ({ keyCurrentUser: c.key }));
-      console.log(keyCurrentUser);
+      
 
 
-
-      this.chatService.getDeepChat(keyCurrentUser, recipientUser.email);
+      this.chatService.getDeepChat(keyCurrentUser, recipientUser.key());
     });
+
+    let a = this.user.userAtivo.snapshotChanges().map(action => {
+      const $key = action.payload.key;
+
+      //console.log('kwy', $key);
+      const data = { $key, ...action.payload.val() };
+      return data;
+    }).subscribe(item => console.log(item.$key));
+
+
+    //console.log('data',);
 
 
     this.navCtrl.push(ChatPage, {

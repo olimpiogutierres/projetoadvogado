@@ -19,16 +19,16 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService extends BaseService {
   public userAtivo: AngularFireObject<User>;
-  
+
   public usersList: AngularFireList<User>
 
   constructor(public http: HttpClient, public afAuth: AngularFireAuth, public db: AngularFireDatabase) {
-    super(); 
+    super();
 
     this.afAuth.authState.subscribe(user => {
-      if (user) {     
-        this.userAtivo = this.db.object<User>(`/users/${user.uid}`); 
-      } 
+      if (user) {
+        this.userAtivo = this.db.object<User>(`/users/${user.uid}`);
+      }
       else {
         this.userAtivo = null;
       }
@@ -38,14 +38,36 @@ export class UserService extends BaseService {
   }
 
 
+  public obterKey(user: User): string {
 
+    let a: string;
+    this.db.list('/users', ref => ref.orderByChild('email').equalTo(user.email))
+      .snapshotChanges()
+      .map(action => {
+        const $key = action[0].key;
+        return $key;
+      })
+      .subscribe(d => a = d.toString());
+
+
+
+    // this.db.list('/users', ref => ref.orderByChild('email').equalTo(user.email)).snapshotChanges()
+    // .map(action => {
+    //   const $key = action.key;
+
+    //   //console.log('kwy', $key);
+    //   const data = { $key, ...action.payload.val() };
+    //   return data;
+    // }).subscribe(item => console.log(item.$key));
+    return a;
+  }
 
 
 
   private setUsers() {
     this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));
   }
-  
+
   getAuthState() {
     //return this.authState;
   }

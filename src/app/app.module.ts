@@ -16,13 +16,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { HomePage } from '../pages/home/home'; 
 import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { HttpClientModule } from '@angular/common/http'
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BaseComponent } from '../components/base/base.component';
 
+// import mo = require( "https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js");
+// import "//s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin.min.js?r=182";
 
 
 
@@ -50,7 +52,8 @@ const firebaseAppConfig: FirebaseAppConfig = {
     AngularFireAuthModule,
     ComponentsModule,
     PipesModule,
-    ChatPageModule
+    ChatPageModule,
+    
 
   ],
   bootstrap: [IonicApp],

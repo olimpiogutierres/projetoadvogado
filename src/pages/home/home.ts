@@ -9,9 +9,10 @@ import { SignupPage } from '../signup/signup';
 import { AngularFireList, AngularFireObject } from 'angularfire2/database';
 
 import { Observable } from 'rxjs/Observable';
+import { Chat } from '../../models/chat.model';
 // import { AngularFireDatabase, FirebaseListObservable } from "angularfire2/database-deprecated";
 //import { Observable } from '@firebase/util';
-
+import firebase from 'firebase'
 
 @Component({
   selector: 'page-home',
@@ -20,6 +21,8 @@ import { Observable } from 'rxjs/Observable';
 export class HomePage {
 
   public usuarios: User[];
+
+  public chats: Chat[];
 
   view: string = 'chats';
   // public usuarios:AngularFireList<any> 
@@ -41,17 +44,25 @@ export class HomePage {
 
 
     this.user.userAtivo.valueChanges().subscribe(userAtivo => {
-      this.user.usersList.valueChanges()
-        .subscribe(data => {
+
+      this.user.mapListKeys<User>(this.user.usersList)
+        .subscribe((data: User[]) => {
+
+
+          //console.log(data);
+
           this.usuarios = data;
 
-          console.log(userAtivo.email);
+          //console.log(userAtivo.email);
 
           this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
 
 
         });
     });
+
+
+    this.chats = this.chatService.chats;
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -72,29 +83,61 @@ export class HomePage {
 
   onCreateChat(recipientUser: User) {
 
-    
-      console.log('recipientkey',  recipientUser.key());
+
+    // console.log('recipientkey', recipientUser.key());
 
 
-    this.user.userAtivo.valueChanges().first().subscribe((currentUser: User) => {
-      let keyCurrentUser: any;
-      this.user.userAtivo.snapshotChanges().map(c => ({ keyCurrentUser: c.key }));
-      
+    // this.user.userAtivo.valueChanges().first().subscribe((currentUser: User) => {
+    //   let keyCurrentUser: any;
+    //   this.user.userAtivo.snapshotChanges().map(c => ({ keyCurrentUser: c.key }));
 
 
-      this.chatService.getDeepChat(keyCurrentUser, recipientUser.key());
-    });
 
-    let a = this.user.userAtivo.snapshotChanges().map(action => {
-      const $key = action.payload.key;
+    //   this.chatService.getDeepChat(keyCurrentUser, recipientUser.key());
+    // });
 
-      //console.log('kwy', $key);
-      const data = { $key, ...action.payload.val() };
-      return data;
-    }).subscribe(item => console.log(item.$key));
+    // let a = this.user.userAtivo.snapshotChanges().map(action => {
+    //   const $key = action.payload.key;
+
+    //   //console.log('kwy', $key);
+    //   const data = { $key, ...action.payload.val() };
+    //   return data;
+    // }).subscribe(item => console.log(item.$key));
 
 
     //console.log('data',);
+
+
+    console.log(recipientUser);
+    console.log(this.user.mapObjectKey<User>(this.user.userAtivo));
+
+    this.user.mapObjectKey<User>(this.user.userAtivo).first()
+      .subscribe((currentUser: User) => {
+        console.log('first user', currentUser);
+
+        this.chatService.mapObjectKey<Chat>(this.chatService.getDeepChat(currentUser.$key, recipientUser.$key))
+          .first()
+          .subscribe((chat: Chat) => {
+
+            console.log('entrou chat', chat.$key === null);
+            if (chat.$key === null) {
+
+              let timestamp: Object = firebase.database.ServerValue.TIMESTAMP;
+
+              let chat1 = new Chat('', timestamp, recipientUser.name, '');
+              this.chatService.create(chat1, currentUser.$key, recipientUser.$key);
+
+              let chat2 = new Chat('', timestamp, currentUser.name, '');
+              this.chatService.create(chat2, recipientUser.$key, currentUser.$key);
+            }
+            else {
+
+            }
+
+          })
+      });
+
+
 
 
     this.navCtrl.push(ChatPage, {

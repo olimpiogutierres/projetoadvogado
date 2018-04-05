@@ -63,6 +63,9 @@ export class UserService extends BaseService {
   }
 
 
+  getUser(user:User){
+     return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
+  }
 
   private setUsers() {
     this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));

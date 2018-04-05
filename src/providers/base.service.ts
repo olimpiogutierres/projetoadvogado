@@ -2,6 +2,7 @@ import { User } from './../models/user.model';
 import { UserService } from './user/user.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import { AngularFireList, AngularFireObject } from 'angularfire2/database';
 
 const extractError = (error: Response | any): string => {
     // In a real world app, we might use a remote logging infrastructure
@@ -24,7 +25,7 @@ export abstract class BaseService {
 
     }
 
-    
+
 
     protected handlePromiseError(error: Response | any): Promise<any> {
         return Promise.reject(extractError(error));
@@ -34,6 +35,41 @@ export abstract class BaseService {
         return Observable.throw(extractError(error));
     }
 
+    mapListKeys<T>(list: AngularFireList<T>): Observable<T[]> {
+        return list
+            .snapshotChanges()
+            .map(actions => actions.map(action => ({ $key: action.key, ...action.payload.val() })));
+    }
+
+    mapListKeysType<T>(list: AngularFireList<T>): T[] {
+
+
+        let a: T[];
+        list.snapshotChanges()
+            .map(actions => actions.map(action => ({ $key: action.key, ...action.payload.val() })))
+            .subscribe((data) => {
+                a = data;
+            });
+
+        return a;
+    }
+
+
+
+
+    mapObjectKey<T>(object: AngularFireObject<T>): Observable<T> {
+        return object
+            .snapshotChanges()
+            .map(action => ({ $key: action.key, ...action.payload.val() }));
+    }
+
+    mapObjectKeyType<T>(object: AngularFireObject<T>): T {
+        let a: T;
+        object.snapshotChanges()
+            .map(action => ({ $key: action.key, ...action.payload.val() }))
+            .subscribe(data => { a = data });
+        return
+    }
 
 
 }

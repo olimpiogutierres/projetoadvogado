@@ -124,17 +124,34 @@ export class HomePage {
   onChatOpen(chat: Chat) {
     let recipientUserId: string = chat.$key;
 
-    console.log(recipientUserId)
-    var a = this.user.getUserById(recipientUserId)
-      .valueChanges().first()
-      .subscribe((users: User[]) => {
+    var user = this.user.getUserById(recipientUserId);
 
-        let user: User = users[0];
+    this.user.mapObjectKey<User>(user)
+      .subscribe((u: User) => {
 
+        // console.log(u);
+        let user1:User = u;
+        // console.log(user1);
         this.navCtrl.push(ChatPage, {
-          recipientUser: user
+          recipientUser: user1
         });
-      })
+      });
+    // console.log(recipientUserId)
+    // var a = 
+    //   .valueChanges()
+    //   .subscribe((users: User) => {
+
+
+
+
+
+
+    //     // this.navCtrl.push(ChatPage, {
+    //     //   recipientUser: user
+    //     // });
+
+    //     console.log(users);
+    //   });
     // .subscribe((user: User[]) => {
 
     //   console.log(user)

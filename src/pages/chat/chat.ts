@@ -37,20 +37,29 @@ export class ChatPage {
   ionViewDidLoad() {
     this.recipient = this.navParams.get('recipientUser');
     this.pageTitle = this.recipient.name;
-    this.userService.userAtivo.valueChanges().first()
-      .subscribe((currentUser: User) => {
-        this.sender = currentUser;
-        this.messages = this.messageService
-          .getMessages(this.sender.$key, this.recipient.$key);
 
-        this.messageService.mapListKeys<Message>(this.messages)
-          .subscribe((messages: Message[]) => {
-            if (messages.length === 0) {
-              this.messages = this.messageService
-                .getMessages(this.recipient.$key, this.sender.$key);
 
-            }
-          });
+
+
+        this.userService.mapObjectKey<User>(this.userService.userAtivo)
+          .subscribe((current: User) => {
+            this.sender = current;
+
+
+            this.messages = this.messageService
+              .getMessages(this.sender.$key, this.recipient.$key);
+
+            this.messageService.mapListKeys<Message>(this.messages)
+              .subscribe((messages: Message[]) => {
+                if (messages.length === 0) {
+                  this.messages = this.messageService
+                    .getMessages(this.recipient.$key, this.sender.$key);
+
+                }
+              });
+
+         
+
 
       });
   }

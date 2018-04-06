@@ -38,52 +38,20 @@ export class UserService extends BaseService {
   }
 
 
-  public obterKey(user: User): string {
+  
 
-    let a: string;
-    this.db.list('/users', ref => ref.orderByChild('email').equalTo(user.email))
-      .snapshotChanges()
-      .map(action => {
-        const $key = action[0].key;
-        return $key;
-      })
-      .subscribe(d => a = d.toString());
-
-
-
-    // this.db.list('/users', ref => ref.orderByChild('email').equalTo(user.email)).snapshotChanges()
-    // .map(action => {
-    //   const $key = action.key;
-
-    //   //console.log('kwy', $key);
-    //   const data = { $key, ...action.payload.val() };
-    //   return data;
-    // }).subscribe(item => console.log(item.$key));
-    return a;
+  getUser(user: User) {
+    return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
   }
 
-
-  getUser(user:User){
-     return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
+  getUserById(userId:string): AngularFireList<User>{
+    return this.db.list(`/users/${userId}`);
   }
+
 
   private setUsers() {
     this.usersList = this.db.list('/users', ref => ref.orderByChild('name'));
   }
-
-  getAuthState() {
-    //return this.authState;
-  }
-
-  logoutWithGoogle() {
-    return this.afAuth.auth.signOut();
-  }
-
-  loginWithGoogle() {
-    return this.afAuth.auth.signInWithPopup(
-      new firebase.auth.GoogleAuthProvider());
-  }
-
   create(user: User, uuid: string): Promise<void> {
     console.log(uuid);
     console.log(user);
@@ -97,8 +65,7 @@ export class UserService extends BaseService {
         return users.length > 0;
       })
       .catch(this.handleObservableError);
-
-
   }
+
 
 }

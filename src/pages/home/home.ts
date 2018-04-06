@@ -1,3 +1,4 @@
+
 import { User } from './../../models/user.model';
 import { ChatService } from './../../providers/chat/chat.service';
 import { ChatPage } from './../chat/chat';
@@ -28,19 +29,27 @@ export class HomePage {
   // public usuarios:AngularFireList<any> 
 
   public user: UserService;
+  public chatService: ChatService;
 
-  constructor(public authService: AuthService, public navCtrl: NavController, user: UserService, public chatService: ChatService) {
+  constructor(public authService: AuthService, public navCtrl: NavController, user: UserService, chatService: ChatService) {
     this.view = 'chats';
     this.user = user;
+    this.chatService = chatService;
     console.log('entrou no construtor');
   }
 
+  ionViewDidEnter() {
+    this.chatService.setChats();
+  }
   ionViewDidLoad() {
 
-    let userAtivo: AngularFireObject<User> = this.user.userAtivo;
+    // let userAtivo: AngularFireObject<User> = this.user.userAtivo;
 
 
-    console.log('user1111', userAtivo);
+    // console.log('user1111', userAtivo);
+
+    console.log(this.user.userAtivo);
+
 
 
     this.user.userAtivo.valueChanges().subscribe(userAtivo => {
@@ -48,21 +57,16 @@ export class HomePage {
       this.user.mapListKeys<User>(this.user.usersList)
         .subscribe((data: User[]) => {
 
-
-          //console.log(data);
-
           this.usuarios = data;
-
-          //console.log(userAtivo.email);
-
           this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
 
-
+          this.chatService.mapListKeys<Chat>(this.chatService.chats)
+            .subscribe((data1: Chat[]) => {
+              this.chats = data1;
+            });
         });
     });
 
-
-    this.chats = this.chatService.chats;
   }
 
   ionViewCanEnter(): Promise<boolean> {
@@ -83,43 +87,15 @@ export class HomePage {
 
   onCreateChat(recipientUser: User) {
 
-
-    // console.log('recipientkey', recipientUser.key());
-
-
-    // this.user.userAtivo.valueChanges().first().subscribe((currentUser: User) => {
-    //   let keyCurrentUser: any;
-    //   this.user.userAtivo.snapshotChanges().map(c => ({ keyCurrentUser: c.key }));
-
-
-
-    //   this.chatService.getDeepChat(keyCurrentUser, recipientUser.key());
-    // });
-
-    // let a = this.user.userAtivo.snapshotChanges().map(action => {
-    //   const $key = action.payload.key;
-
-    //   //console.log('kwy', $key);
-    //   const data = { $key, ...action.payload.val() };
-    //   return data;
-    // }).subscribe(item => console.log(item.$key));
-
-
-    //console.log('data',);
-
-
-    console.log(recipientUser);
-    console.log(this.user.mapObjectKey<User>(this.user.userAtivo));
-
     this.user.mapObjectKey<User>(this.user.userAtivo).first()
       .subscribe((currentUser: User) => {
-        console.log('first user', currentUser);
+
 
         this.chatService.mapObjectKey<Chat>(this.chatService.getDeepChat(currentUser.$key, recipientUser.$key))
           .first()
           .subscribe((chat: Chat) => {
 
-            console.log('entrou chat', chat.$key === null);
+
             if (chat.$key === null) {
 
               let timestamp: Object = firebase.database.ServerValue.TIMESTAMP;
@@ -143,6 +119,30 @@ export class HomePage {
     this.navCtrl.push(ChatPage, {
       recipientUser: recipientUser
     });
+  }
+
+  onChatOpen(chat: Chat) {
+    let recipientUserId: string = chat.$key;
+
+    console.log(recipientUserId)
+    var a = this.user.getUserById(recipientUserId)
+      .valueChanges().first()
+      .subscribe((users: User[]) => {
+
+        let user: User = users[0];
+
+        this.navCtrl.push(ChatPage, {
+          recipientUser: user
+        });
+      })
+    // .subscribe((user: User[]) => {
+
+    //   console.log(user)
+    //   console.log(user[0])
+    //   // this.navCtrl.push(ChatPage, {
+    //   //   recipientUser: 
+    //   // })
+    // });
   }
 
 }

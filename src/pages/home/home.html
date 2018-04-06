@@ -8,16 +8,21 @@
     </ion-segment>
   </ion-toolbar>
 
-</ion-header> 
+</ion-header>
 
 <ion-content padding>
 
 
   <div [ngSwitch]="view">
     <ion-list *ngSwitchCase="'chats'" no-lines>
-      <button ion-item *ngFor="let u of chats" (click)="onCreateChat(u)">
-        {{u.title}}
+      <button ion-item *ngFor="let c of chats" (click)="onChatOpen(c)">
+        <h2>{{c.title}}</h2>
+        <p *ngIf="c.lastMessage">{{c.timestamp| date:'dd/MM/y H:mm'}} - {{c.lastMessage}}</p>
+        <p *ngIf="!c.lastMessage">No messages</p>
       </button>
+      <!-- <button ion-item *ngFor="let c of chats">
+        {{c.title}}
+      </button> -->
     </ion-list>
 
 
@@ -33,7 +38,7 @@
 
   <!-- <button ion-item *ngFor="let item of usuarios">item</button>  -->
 
-  
+
 
 
 </ion-content>

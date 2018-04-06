@@ -42,16 +42,23 @@ export class SigninPage {
   onSubmit() {
 
     let loading: Loading = this.showLoading();
+
+
+    // console.log('this.signinForm.value', this.signinForm.value);
     this.auth.signinWithEmail(this.signinForm.value)
       .then((isLogged: boolean) => {
         this.navCtrl.push(HomePage);
         loading.dismiss();
+
+        console.log('this.auth.auth.auth.currentUser.email;',this.auth.auth.auth.currentUser.email);
       })
       .catch((error: any) => {
         console.log(error);
         loading.dismiss();
         this.showAlert(error);
       });
+
+      
   }
 
 
@@ -67,7 +74,7 @@ export class SigninPage {
 
     loading.present();
 
-    return loading; 
+    return loading;
   }
 
 
@@ -82,15 +89,15 @@ export class SigninPage {
 
     console.log('onHomePage enter;');
     this.navCtrl.push(HomePage)
-      .then((hasAccess)=>{
+      .then((hasAccess) => {
         console.log('Autorizado: ', hasAccess);
-      }).catch(err=>{
+      }).catch(err => {
         console.log('Não autorizado: ');
       });
-      console.log('onHomePage end;');
+    console.log('onHomePage end;');
   }
 
-  onLogout(){
+  onLogout() {
     this.auth.logout();
   }
 }

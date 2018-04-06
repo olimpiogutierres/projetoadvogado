@@ -4,14 +4,14 @@ import { Chat } from './../../models/chat.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import { AuthService } from '../auth/auth.service';
 
 
 @Injectable()
 export class ChatService extends BaseService {
 
-
+  public chats: AngularFireList<Chat>;
 
   constructor(public http: HttpClient, public db: AngularFireDatabase, public authService: AuthService) {
     super();
@@ -20,27 +20,28 @@ export class ChatService extends BaseService {
     this.setChats();
   }
 
-  chats: Chat[];
+
+
+  //  public usersList: 
 
 
   setChats() {
 
-    console.log('setChats');
+
+    // this.mapListKeys(this.db.list(`/chats/${this.authService.auth.auth.currentUser.uid}`,
+    //   ref => ref.orderByChild('timestamp'))).subscribe((data: Chat[]) => {
+    //     this.chats = data;
+    //     console.log(data); console.log(this.chats)
+    //   });
+
+    console.log(this.authService.auth.auth.currentUser.uid);
 
 
+    this.chats = this.db.list(`/chats/${this.authService.auth.auth.currentUser.uid}`,
+      ref => ref.orderByChild('timestamp'));
 
 
-    this.mapListKeys(this.db.list(`/chats/${this.authService.auth.auth.currentUser.uid}`,
-      ref => ref.orderByChild('timestamp'))).subscribe((data: Chat[]) => {
-        this.chats = data;
-        console.log(data); console.log(this.chats)
-      });
-
-    console.log('saiu setchats', this.chats);
-
-    console.log('saiu setchats reverse', this.chats);
-
-
+    console.log('this.chats', `/chats/${this.authService.auth.auth.currentUser.uid}`);
 
 
     // this.user.mapObjectKey<User>(this.user.userAtivo)

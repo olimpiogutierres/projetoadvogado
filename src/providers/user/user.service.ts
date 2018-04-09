@@ -40,12 +40,12 @@ export class UserService extends BaseService {
 
   
 
-  getUser(user: User) {
-    return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
-  }
+  // getUser(user: User) {
+  //   return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
+  // }
 
-  getUserById(userId:string): AngularFireList<User>{
-    return this.db.list(`/users/${userId}`);
+  getUserById(userId:string): AngularFireObject<User>{
+    return this.db.object(`/users/${userId}`);
   }
 
 

@@ -27,6 +27,8 @@ export class ChatPage {
   sender: User;
   recipient: User;
   constructor(public navCtrl: NavController, public messageService: MessageService, public auth: AuthService, public navParams: NavParams, public userService: UserService) {
+
+    console.log('constructor chat');
   }
 
 
@@ -41,24 +43,37 @@ export class ChatPage {
 
 
 
-        this.userService.mapObjectKey<User>(this.userService.userAtivo)
-          .subscribe((current: User) => {
-            this.sender = current;
+    this.userService.mapObjectKey<User>(this.userService.userAtivo)
+      .subscribe((current: User) => {
+        this.sender = current;
+
+        this.messages = this.messageService
+          .getMessages(this.sender.$key, this.recipient.$key);
+
+        console.log('messages', this.messages);
+
+        this.messageService.mapListKeys<Message>(this.messages)
+          .subscribe((messages: Message[]) => {
 
 
-            this.messages = this.messageService
-              .getMessages(this.sender.$key, this.recipient.$key);
+            if (messages.length !== 0) {
+              console.log('messages.length', messages.length)
 
-            this.messageService.mapListKeys<Message>(this.messages)
-              .subscribe((messages: Message[]) => {
-                if (messages.length === 0) {
-                  this.messages = this.messageService
-                    .getMessages(this.recipient.$key, this.sender.$key);
 
-                }
-              });
+              console.log('this.recipient.$key', this.recipient.$key);
 
-         
+              console.log('this.sender.$key', this.sender.$key);
+
+
+              this.messages = this.messageService
+                .getMessages(this.recipient.$key, this.sender.$key);
+
+                
+
+            }
+          });
+
+
 
 
       });

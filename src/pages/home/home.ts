@@ -124,12 +124,13 @@ export class HomePage {
   onChatOpen(chat: Chat) {
     let recipientUserId: string = chat.$key;
 
-    var user = this.user.getUserById(recipientUserId);
+    let user:AngularFireObject<User> = this.user.getUserById(recipientUserId);
 
+    console.log('onChatOpen',user);
     this.user.mapObjectKey<User>(user)
       .subscribe((u: User) => {
 
-        // console.log(u);
+         console.log('onChatOpen',u);
         let user1:User = u;
         // console.log(user1);
         this.navCtrl.push(ChatPage, {

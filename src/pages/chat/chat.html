@@ -11,8 +11,8 @@
 
 <ion-content padding>
   <ion-list no-lines> 
-    <ion-item clear *ngFor="let m of messages" class="teste">
-      {{m.text}}
+    <ion-item clear *ngFor="let m of messages; let i = index" class="teste">
+      {{m[i].text}}
     </ion-item>
   </ion-list> 
 

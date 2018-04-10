@@ -1,3 +1,5 @@
+import { ChatService } from './../../providers/chat/chat.service';
+import { Chat } from './../../models/chat.model';
 import { Message } from './../../models/message.model';
 import { User } from './../../models/user.model';
 import { AuthService } from './../../providers/auth/auth.service';
@@ -22,11 +24,13 @@ import firebase from 'firebase';
 export class ChatPage {
 
 
-  messages: AngularFireList<Message>;
+  public messages: Message[] = [];
   pageTitle: string;
   sender: User;
   recipient: User;
-  constructor(public navCtrl: NavController, public messageService: MessageService, public auth: AuthService, public navParams: NavParams, public userService: UserService) {
+
+  constructor(public navCtrl: NavController, public chatService: ChatService, public messageService: MessageService, public auth: AuthService, public navParams: NavParams, public userService: UserService) {
+
 
     console.log('constructor chat');
   }
@@ -47,30 +51,16 @@ export class ChatPage {
       .subscribe((current: User) => {
         this.sender = current;
 
-        this.messages = this.messageService
+        let currentMessages = this.messageService
           .getMessages(this.sender.$key, this.recipient.$key);
 
-        console.log('messages', this.messages);
+        // console.log('messages', this.messages);
 
-        this.messageService.mapListKeys<Message>(this.messages)
-          .subscribe((messages: Message[]) => {
+        this.messageService.mapListKeys<Message>(currentMessages)
+          .subscribe((messages: any) => {
+            console.log('messages', messages);
 
-
-            if (messages.length !== 0) {
-              console.log('messages.length', messages.length)
-
-
-              console.log('this.recipient.$key', this.recipient.$key);
-
-              console.log('this.sender.$key', this.sender.$key);
-
-
-              this.messages = this.messageService
-                .getMessages(this.recipient.$key, this.sender.$key);
-
-                
-
-            }
+            this.messages = messages;
           });
 
 
@@ -78,14 +68,24 @@ export class ChatPage {
 
       });
   }
+
+  
   sendMessage(newMessage: string) {
 
     if (newMessage) {
-      let timestamp: Object = firebase.database.ServerValue.TIMESTAMP;
+      console.log(this.sender)
+      console.log(this.recipient)
+      let currentTimestamp: Object = firebase.database.ServerValue.TIMESTAMP;
+      console.log(currentTimestamp);
       this.messageService.create(
-        new Message(this.sender.$key, newMessage, timestamp),
-        this.messages
+        new Message(newMessage, currentTimestamp, this.sender.$key),
+        this.messages, this.sender.$key, this.recipient.$key
       );
+
+      this.chatService.getDeepChat(this.sender.$key, this.recipient.$key)
+        .update({ timestamp: currentTimestamp, lastMessage: newMessage });
+      this.chatService.getDeepChat(this.recipient.$key, this.sender.$key)
+        .update({ timestamp: currentTimestamp, lastMessage: newMessage });
     }
 
     //this.messages.push(newMessage);

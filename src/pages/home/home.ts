@@ -63,6 +63,7 @@ export class HomePage {
           this.chatService.mapListKeys<Chat>(this.chatService.chats)
             .subscribe((data1: Chat[]) => {
               this.chats = data1;
+              this.chats.reverse();
             });
         });
     });

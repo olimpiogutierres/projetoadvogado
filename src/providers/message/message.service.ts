@@ -19,15 +19,19 @@ export class MessageService extends BaseService {
     console.log('Hello MessageProvider Provider');
   }
 
-  create(message: Message, listMessages: AngularFireList<Message>):AngularFireList<Message> {
+  create(message: Message, listMessages: Message[], userId1: string, userId2: string): Message[] {
+
+
+    console.log('listMessages',listMessages)
+    console.log('message',message)
     listMessages.push(message);
+
+    this.getMessages(userId1, userId2).push(message);
+
     return listMessages;
   }
 
-  getMessages(userId1: string, userId2: string):AngularFireList<Message> {
-
-    console.log(`/messages/${userId1}-${userId2}`)
-
+  getMessages(userId1: string, userId2: string): AngularFireList<Message> {
     return this.db.list(`/messages/${userId1}-${userId2}`, ref => ref.orderByChild('timestamp'));
   }
 

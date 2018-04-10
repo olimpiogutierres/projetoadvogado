@@ -4,13 +4,16 @@ import { CustomLoggedHeaderComponent } from './custom-logged-header/custom-logge
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from 'ionic-angular';
 import { MyApp } from '../app/app.component';
+import { MessageBoxComponent } from './message-box/message-box';
 
 @NgModule({
 	declarations: [
-    CustomLoggedHeaderComponent],
+    CustomLoggedHeaderComponent,
+    MessageBoxComponent],
 	imports: [ BrowserModule,
 		IonicModule.forRoot(MyApp)],
 	exports: [
-    CustomLoggedHeaderComponent]
+    CustomLoggedHeaderComponent,
+    MessageBoxComponent]
 })
 export class ComponentsModule {}

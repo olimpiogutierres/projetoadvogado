@@ -11,15 +11,15 @@
 
 <ion-content padding>
   <ion-list no-lines> 
-    <ion-item clear *ngFor="let m of messages; let i = index" class="teste">
-      {{m[i].text}}
-    </ion-item>
+    <message-box *ngFor="let m of messages" [message]="m" [isFromSender]="(m.userId === sender.$key)" >
+      {{m.text}}
+    </message-box>
   </ion-list> 
 
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
+  <ion-toolbar> 
     <ion-item no-lines>
       <ion-input type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
       <button ion-button item-right color="secondary" (click)="sendMessage(newMessage); newMessage=''">

@@ -16,11 +16,13 @@ import { AuthService } from '../../providers/auth/auth.service';
 export class CustomLoggedHeaderComponent extends BaseComponent {
 
   @Input() title: string;
+  @Input() name:string;
 
   constructor(public alertCtrl: AlertController, public auth: AuthService, public app: App,
     public menuCtrl: MenuController) {
     super(alertCtrl, auth, app, menuCtrl);
     console.log('Hello CustomLoggedHeaderComponent Component');
+    this.name = auth.auth.auth.currentUser.email;
     
   }
 

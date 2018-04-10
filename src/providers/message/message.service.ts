@@ -26,7 +26,8 @@ export class MessageService extends BaseService {
     console.log('message',message)
     listMessages.push(message);
 
-    this.getMessages(userId1, userId2).push(message);
+    this.getMessages(userId1, userId2).push(message); 
+    this.getMessages(userId2, userId1).push(message);
 
     return listMessages;
   }

@@ -42,28 +42,35 @@ export class HomePage {
     this.chatService.setChats();
   }
   ionViewDidLoad() {
-
+   
     // let userAtivo: AngularFireObject<User> = this.user.userAtivo;
 
 
     // console.log('user1111', userAtivo);
 
-    console.log(this.user.userAtivo);
+    
 
 
 
     this.user.userAtivo.valueChanges().subscribe(userAtivo => {
 
+      
       this.user.mapListKeys<User>(this.user.usersList)
         .subscribe((data: User[]) => {
 
+          console.log('usuario ativo',userAtivo.name);
+          this.view = userAtivo.name;
           this.usuarios = data;
-          this.usuarios = this.usuarios.filter(d => d.email !== userAtivo.email);
+          this.usuarios = this.usuarios.filter(d => d.$key !== userAtivo.$key);
 
           this.chatService.mapListKeys<Chat>(this.chatService.chats)
             .subscribe((data1: Chat[]) => {
-              this.chats = data1;
+              this.chats = data1.filter(d=>d.$key === userAtivo.$key);
               this.chats.reverse();
+
+              console.log(data1);
+              console.log(this.chats);
+
             });
         });
     });

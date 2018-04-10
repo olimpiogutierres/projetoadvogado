@@ -34,11 +34,10 @@ export class ChatService extends BaseService {
     //     console.log(data); console.log(this.chats)
     //   });
 
-    console.log(this.authService.auth.auth.currentUser.uid);
+    //console.log('this.authService.auth.auth.currentUser.uid',this.authService.auth.auth.currentUser.uid);
 
 
-    this.chats = this.db.list(`/chats/${this.authService.auth.auth.currentUser.uid}`,
-      ref => ref.orderByChild('timestamp'));
+    this.chats = this.db.list(`/chats/${this.authService.auth.auth.currentUser.uid}`);
 
 
     console.log('this.chats', `/chats/${this.authService.auth.auth.currentUser.uid}`);

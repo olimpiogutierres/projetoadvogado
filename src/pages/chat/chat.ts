@@ -81,6 +81,7 @@ export class ChatPage {
         new Message(newMessage, currentTimestamp, this.sender.$key),
         this.messages, this.sender.$key, this.recipient.$key
       );
+      
 
       this.chatService.getDeepChat(this.sender.$key, this.recipient.$key)
         .update({ timestamp: currentTimestamp, lastMessage: newMessage });

@@ -2,5 +2,5 @@
 <div class ="text" [ngClass]="{'senderBackground': isFromSender}">
   {{message.text}} 
   <!-- <p class="timestamp">{{message.timestamp| date:'dd/MM/y H:mm'}}</p> -->
-  <p class="timestamp">{{message.timestamp}}</p>
+  <p class="timestamp">{{setDate(message.timestamp)|date:'dd/MM/y H:mm'}}</p>
 </div>

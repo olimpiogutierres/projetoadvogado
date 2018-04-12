@@ -40,40 +40,50 @@ export class HomePage {
 
   ionViewDidEnter() {
     this.chatService.setChats();
-  }
-  ionViewDidLoad() {
-   
-    // let userAtivo: AngularFireObject<User> = this.user.userAtivo;
+
+    this.user.mapObjectKey<User>(this.user.userAtivo).subscribe(userAtivo => {
 
 
-    // console.log('user1111', userAtivo);
-
-    
-
-
-
-    this.user.userAtivo.valueChanges().subscribe(userAtivo => {
-
-      
       this.user.mapListKeys<User>(this.user.usersList)
         .subscribe((data: User[]) => {
 
-          console.log('usuario ativo',userAtivo.name);
-          this.view = userAtivo.name;
-          this.usuarios = data;
-          this.usuarios = this.usuarios.filter(d => d.$key !== userAtivo.$key);
+          // this.view = userAtivo.name;
+          this.usuarios = data.filter(d => d.$key !== userAtivo.$key);
 
           this.chatService.mapListKeys<Chat>(this.chatService.chats)
             .subscribe((data1: Chat[]) => {
-              this.chats = data1.filter(d=>d.$key === userAtivo.$key);
+              this.chats = data1;
               this.chats.reverse();
-
-              console.log(data1);
-              console.log(this.chats);
-
             });
         });
     });
+  }
+
+
+  ionViewDidLoad() {
+
+    // this.user.mapObjectKey<User>(this.user.userAtivo).subscribe(userAtivo => {
+
+
+    //   this.user.mapListKeys<User>(this.user.usersList)
+    //     .subscribe((data: User[]) => {
+
+    //       console.log('usuario ativo', userAtivo);
+    //       this.view = userAtivo.name;
+    //       this.usuarios = data;
+    //       this.usuarios = this.usuarios.filter(d => d.$key !== userAtivo.$key);
+
+    //       this.chatService.mapListKeys<Chat>(this.chatService.chats)
+    //         .subscribe((data1: Chat[]) => {
+    //           this.chats = data1;
+    //           // this.chats.reverse();
+
+    //           console.log(data1);
+    //           console.log(this.chats);
+
+    //         });
+    //     });
+    // });
 
   }
 
@@ -132,14 +142,14 @@ export class HomePage {
   onChatOpen(chat: Chat) {
     let recipientUserId: string = chat.$key;
 
-    let user:AngularFireObject<User> = this.user.getUserById(recipientUserId);
+    let user: AngularFireObject<User> = this.user.getUserById(recipientUserId);
 
-    console.log('onChatOpen',user);
+    console.log('onChatOpen', user);
     this.user.mapObjectKey<User>(user)
       .subscribe((u: User) => {
 
-         console.log('onChatOpen',u);
-        let user1:User = u;
+        console.log('onChatOpen', u);
+        let user1: User = u;
         // console.log(user1);
         this.navCtrl.push(ChatPage, {
           recipientUser: user1

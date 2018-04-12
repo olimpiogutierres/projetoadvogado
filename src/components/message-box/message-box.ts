@@ -19,4 +19,17 @@ export class MessageBoxComponent {
     console.log('Hello MessageBoxComponent Component');
   }
 
+
+  date:Date;
+  
+  get Anotherdate(){  //getter function
+    return this.date
+  }
+  setDate(date) {
+    this.Anotherdate = date;
+    return this.Anotherdate;
+  }
+  set Anotherdate(date){     // Setter Function
+    this.date = new Date(date)
+  }
 }

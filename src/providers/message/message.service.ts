@@ -33,6 +33,8 @@ export class MessageService extends BaseService {
   }
 
   getMessages(userId1: string, userId2: string): AngularFireList<Message> {
+
+    console.log('/messages/${userId1}-${userId2}',`/messages/${userId1}-${userId2}`)
     return this.db.list(`/messages/${userId1}-${userId2}`, ref => ref.orderByChild('timestamp'));
   }
 

@@ -51,14 +51,17 @@ export class ChatPage {
       .subscribe((current: User) => {
         this.sender = current;
 
+        // let currentMessages = this.messageService
+        //   .getMessages(this.sender.$key, this.recipient.$key).valueChanges().subscribe(data=>{console.log(data)});
+
+        //  console.log('messages', currentMessages);
+
+
         let currentMessages = this.messageService
-          .getMessages(this.sender.$key, this.recipient.$key);
-
-        // console.log('messages', this.messages);
-
+          .getMessages(this.sender.$key, this.recipient.$key)
         this.messageService.mapListKeys<Message>(currentMessages)
-          .subscribe((messages: any) => {
-            console.log('messages', messages);
+          .subscribe((messages: Message[]) => {
+            // console.log('messages', messages);
 
             this.messages = messages;
           });
@@ -69,7 +72,7 @@ export class ChatPage {
       });
   }
 
-  
+
   sendMessage(newMessage: string) {
 
     if (newMessage) {
@@ -81,12 +84,15 @@ export class ChatPage {
         new Message(newMessage, currentTimestamp, this.sender.$key),
         this.messages, this.sender.$key, this.recipient.$key
       );
-      
+
 
       this.chatService.getDeepChat(this.sender.$key, this.recipient.$key)
         .update({ timestamp: currentTimestamp, lastMessage: newMessage });
       this.chatService.getDeepChat(this.recipient.$key, this.sender.$key)
         .update({ timestamp: currentTimestamp, lastMessage: newMessage });
+
+
+
     }
 
     //this.messages.push(newMessage);

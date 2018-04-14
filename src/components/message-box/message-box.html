@@ -1,7 +1,7 @@
 <!-- Generated template for the MessageBoxComponent component -->
-<div class ="text" [ngClass]="{'senderBackground': isFromSender}">
+<div class ="text" [ngClass]="{'sender-background': isFromSender}">
   {{message.text}} 
   <!-- <p class="timestamp">{{message.timestamp| date:'dd/MM/y H:mm'}}</p> -->
-  <p class="timestamp">{{message.timestamp* 1|date:'dd/MM/y H:mm'}}</p>
+  <p class="timestamp">{{message.timestamp* 1|date:'dd/MM/y H:mm:ss'}}</p>
 </div>
  

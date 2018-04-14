@@ -21,8 +21,10 @@ import firebase from 'firebase'
 })
 export class HomePage {
 
+  public todosUsuarios: User[];
   public usuarios: User[];
 
+  public todosChats: Chat[];
   public chats: Chat[];
 
   view: string = 'chats';
@@ -40,7 +42,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     this.chatService.setChats();
-
+    
     this.user.mapObjectKey<User>(this.user.userAtivo).subscribe(userAtivo => {
 
 
@@ -50,10 +52,13 @@ export class HomePage {
           // this.view = userAtivo.name;
           this.usuarios = data.filter(d => d.$key !== userAtivo.$key);
 
+          this.todosUsuarios = this.usuarios;
           this.chatService.mapListKeys<Chat>(this.chatService.chats)
             .subscribe((data1: Chat[]) => {
               this.chats = data1;
               this.chats.reverse();
+
+              this.todosChats = this.chats;
             });
         });
     });
@@ -62,29 +67,39 @@ export class HomePage {
 
   ionViewDidLoad() {
 
-    // this.user.mapObjectKey<User>(this.user.userAtivo).subscribe(userAtivo => {
+
+  }
 
 
-    //   this.user.mapListKeys<User>(this.user.usersList)
-    //     .subscribe((data: User[]) => {
+  filterItems(event: any) {
+    let searchTerm: string = event.target.value;
 
-    //       console.log('usuario ativo', userAtivo);
-    //       this.view = userAtivo.name;
-    //       this.usuarios = data;
-    //       this.usuarios = this.usuarios.filter(d => d.$key !== userAtivo.$key);
+    if (searchTerm) {
+      switch (this.view) {
+        case 'chats':
+          this.chats = this.chats.filter((c: Chat) => {
 
-    //       this.chatService.mapListKeys<Chat>(this.chatService.chats)
-    //         .subscribe((data1: Chat[]) => {
-    //           this.chats = data1;
-    //           // this.chats.reverse();
+            return c.title.toLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1;
+          });
+          break;
+        case 'users':
+          this.usuarios = this.usuarios.filter((c: User) => {
 
-    //           console.log(data1);
-    //           console.log(this.chats);
-
-    //         });
-    //     });
-    // });
-
+            return c.name.toLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1;
+          });
+          break;
+      }
+    }
+    else {
+      switch (this.view) {
+        case 'chats':
+          this.chats = this.todosChats;
+          break;
+        case 'users':
+          this.usuarios = this.todosUsuarios;
+          break;
+      }
+    }
   }
 
   ionViewCanEnter(): Promise<boolean> {

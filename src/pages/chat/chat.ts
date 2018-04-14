@@ -3,8 +3,8 @@ import { Chat } from './../../models/chat.model';
 import { Message } from './../../models/message.model';
 import { User } from './../../models/user.model';
 import { AuthService } from './../../providers/auth/auth.service';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { UserService } from '../../providers/user/user.service';
 import { AngularFireList } from 'angularfire2/database';
 import { MessageService } from '../../providers/message/message.service';
@@ -23,7 +23,8 @@ import firebase from 'firebase';
 })
 export class ChatPage {
 
-
+  @ViewChild('input') inputMessage ;
+  @ViewChild(Content) content: Content;
   public messages: Message[] = [];
   pageTitle: string;
   sender: User;
@@ -41,28 +42,19 @@ export class ChatPage {
   }
 
   ionViewDidLoad() {
+    
+    this.scrollToBottom();
     this.recipient = this.navParams.get('recipientUser');
     this.pageTitle = this.recipient.name;
-
-
-
 
     this.userService.mapObjectKey<User>(this.userService.userAtivo)
       .subscribe((current: User) => {
         this.sender = current;
 
-        // let currentMessages = this.messageService
-        //   .getMessages(this.sender.$key, this.recipient.$key).valueChanges().subscribe(data=>{console.log(data)});
-
-        //  console.log('messages', currentMessages);
-
-
         let currentMessages = this.messageService
           .getMessages(this.sender.$key, this.recipient.$key)
         this.messageService.mapListKeys<Message>(currentMessages)
           .subscribe((messages: Message[]) => {
-            // console.log('messages', messages);
-
             this.messages = messages;
           });
 
@@ -92,10 +84,22 @@ export class ChatPage {
         .update({ timestamp: currentTimestamp, lastMessage: newMessage });
 
 
+        this.scrollToBottom();
 
     }
+    
 
     //this.messages.push(newMessage);
+  }
+
+  private scrollToBottom(duration?: number) {
+    setTimeout(() => {
+      if (this.content) {
+        this.content.scrollToBottom(duration | 300);
+        //this.inputMessage.setFocus();
+      }
+    }, 50);
+
   }
 
 }

@@ -21,7 +21,7 @@
 <ion-footer>
   <ion-toolbar> 
     <ion-item no-lines>
-      <ion-input type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
+      <ion-input  name="input" type="text" (keyup.enter)="sendMessage(newMessage); newMessage=''" placeholder="Message..." [(ngModel)]="newMessage"></ion-input>
       <button ion-button item-right color="secondary" (click)="sendMessage(newMessage); newMessage=''">
         <ion-icon name="send"></ion-icon>
       </button>

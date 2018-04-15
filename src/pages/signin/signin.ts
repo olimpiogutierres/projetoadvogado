@@ -47,7 +47,7 @@ export class SigninPage {
     // console.log('this.signinForm.value', this.signinForm.value);
     this.auth.signinWithEmail(this.signinForm.value)
       .then((isLogged: boolean) => {
-        this.navCtrl.push(HomePage);
+        this.navCtrl.setRoot(HomePage);
         loading.dismiss();
 
         console.log('this.auth.auth.auth.currentUser.email;',this.auth.auth.auth.currentUser.email);

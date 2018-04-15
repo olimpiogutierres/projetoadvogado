@@ -5,7 +5,7 @@ import { ChatPage } from './../chat/chat';
 import { AuthService } from './../../providers/auth/auth.service';
 import { UserService } from './../../providers/user/user.service';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
 import { AngularFireList, AngularFireObject } from 'angularfire2/database';
 
@@ -33,7 +33,10 @@ export class HomePage {
   public user: UserService;
   public chatService: ChatService;
 
-  constructor(public authService: AuthService, public navCtrl: NavController, user: UserService, chatService: ChatService) {
+  constructor(public menuCtrl: MenuController, public authService: AuthService,
+    public navCtrl: NavController,
+    user: UserService,
+    chatService: ChatService) {
     this.view = 'chats';
     this.user = user;
     this.chatService = chatService;
@@ -42,7 +45,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     this.chatService.setChats();
-    
+
     this.user.mapObjectKey<User>(this.user.userAtivo).subscribe(userAtivo => {
 
 
@@ -67,7 +70,7 @@ export class HomePage {
 
   ionViewDidLoad() {
 
-
+    this.menuCtrl.enable(true, 'user-menu');
   }
 
 

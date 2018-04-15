@@ -22,7 +22,7 @@ import { Observable } from 'rxjs/Observable';
   selector: 'page-signup',
   templateUrl: 'signup.html',
 })
-export class SignupPage {
+export class SignupPage { 
 
 
   signupForm: FormGroup;
@@ -65,7 +65,7 @@ export class SignupPage {
 
             this.userService.create(formUser, uuid).then(() => {
               console.log('Usuário cadastrado!')
-              this.navCtrl.push(HomePage);
+              this.navCtrl.setRoot(HomePage);
               loading.dismiss();
             }).catch((error: any) => {
               console.log(error);

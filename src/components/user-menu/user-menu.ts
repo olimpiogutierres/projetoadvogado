@@ -1,8 +1,10 @@
+
 import { Component, Input } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { AlertController, App, MenuController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from '../../models/user.model';
+import { ProblemasPage } from '../../pages/problemas/problemas';
 
 /**
  * Generated class for the UserMenuComponent component.
@@ -27,6 +29,10 @@ export class UserMenuComponent extends BaseComponent {
 
   onProfile(){
     console.log('onProfile', this.currentUser)
+  }
+
+  onProblemas(){
+    this.navCtrl.setRoot(ProblemasPage);
   }
 
 }

@@ -7,6 +7,7 @@ import { MyApp } from '../app/app.component';
 import { MessageBoxComponent } from './message-box/message-box';
 import { UserInfoComponent } from './user-info/user-info';
 import { UserMenuComponent } from './user-menu/user-menu';
+import { ProblemasPageModule } from '../pages/problemas/problemas.module';
 
 @NgModule({
 	declarations: [
@@ -15,7 +16,7 @@ import { UserMenuComponent } from './user-menu/user-menu';
     UserInfoComponent,
     UserMenuComponent],
 	imports: [ BrowserModule,
-		IonicModule.forRoot(MyApp)],
+		IonicModule.forRoot(MyApp), ProblemasPageModule],
 	exports: [
     CustomLoggedHeaderComponent,
     MessageBoxComponent,

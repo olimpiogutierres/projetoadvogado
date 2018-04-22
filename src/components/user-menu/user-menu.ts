@@ -1,3 +1,4 @@
+import { UserProfilePage } from './../../pages/user-profile/user-profile';
 
 import { Component, Input } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
@@ -18,7 +19,7 @@ import { ProblemasPage } from '../../pages/problemas/problemas';
 })
 export class UserMenuComponent extends BaseComponent {
 
-  @Input('user') currentUser: User;
+  @Input('user') currentUser: User; 
 
   constructor(public alertCtrl: AlertController, public auth: AuthService, public app: App,
     public menuCtrl: MenuController) {
@@ -28,7 +29,8 @@ export class UserMenuComponent extends BaseComponent {
   }
 
   onProfile(){
-    console.log('onProfile', this.currentUser)
+    console.log('onProfile');
+    this.navCtrl.push(UserProfilePage); 
   }
 
   onProblemas(){

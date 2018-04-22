@@ -44,6 +44,10 @@ export class UserService extends BaseService {
   //   return this.db.list('/users', ref => ref.orderByChild('username').equalTo(user.email));
   // }
 
+  edit(user:{name:string, username:string, photo:string}){
+    return this.userAtivo.update(user).catch(this.handlePromiseError);
+  }
+
   getUserById(userId:string): AngularFireObject<User>{
     return this.db.object(`/users/${userId}`);
   }

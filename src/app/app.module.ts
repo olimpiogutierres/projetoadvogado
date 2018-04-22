@@ -1,3 +1,4 @@
+import { UserProfilePageModule } from './../pages/user-profile/user-profile.module';
 import { ChatService } from './../providers/chat/chat.service';
 import { ChatPageModule } from './../pages/chat/chat.module';
 import { PipesModule } from './../pipes/pipes.module';
@@ -24,6 +25,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BaseComponent } from '../components/base/base.component';
 import { MessageService } from '../providers/message/message.service';
 import { ProblemasService } from '../providers/problemas/problemas.service';
+import { UserProfilePage } from '../pages/user-profile/user-profile';
+
 
 // import mo = require( "https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js");
 // import "//s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin.min.js?r=182";
@@ -55,13 +58,14 @@ const firebaseAppConfig: FirebaseAppConfig = {
     ComponentsModule,
     PipesModule,
     ChatPageModule,
-    
+    UserProfilePageModule
 
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    UserProfilePage
   ],
   providers: [
     StatusBar,

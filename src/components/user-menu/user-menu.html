@@ -1,17 +1,17 @@
 <ion-content>
   <user-info [user]="currentUser" [isMenu]="true"></user-info> 
   <ion-list no-lines>
-    <button ion-item icon-right detail-none menu-close="userMenu" (click)="onProfile()">
+    <button ion-item icon-right detail-none menu-close="user-menu" (click)="onProfile()">
       Profile
       <ion-icon name="person" item-right></ion-icon>
     </button>
 
-    <button ion-item icon-right detail-none menu-close="userMenu" (click)="onProblemas()">
+    <button ion-item icon-right detail-none menu-close="user-menu" (click)="onProblemas()">
       Problemas
       <ion-icon name="help" item-right></ion-icon>
     </button>
 
-    <button ion-item icon-right detail-none menu-close="userMenu" (click)="onLogout()">
+    <button ion-item icon-right detail-none menu-close="user-menu" (click)="onLogout()">
       Logout
       <ion-icon name="log-out" item-right></ion-icon>
     </button>

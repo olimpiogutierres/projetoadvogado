@@ -19,6 +19,12 @@ export class UserInfoComponent {
   constructor() {
     console.log('Hello UserInfoComponent Component');
 
+    console.log('Userinfo.constructor',this.user);
+
+  }
+
+  ionViewDidEnter(){
+   console.log(this.user);
   }
 
 }

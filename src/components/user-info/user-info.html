@@ -1,8 +1,5 @@
-<!-- Generated template for the UserInfoComponent component -->
-<div>
-  {{text}}
-</div>
-<div *ngIf="user"> 
+
+<div *ngIf="user">  
   <ion-avatar [ngClass]="{'custom-background': isMenu}">
     <img class="round" [src]="user.photo || 'assets/imgs/no-photo.jpg'">
   </ion-avatar>
